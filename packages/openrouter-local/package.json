@@ -1,0 +1,52 @@
+{
+  "name": "@superbiche/openrouter-paperclip-adapter",
+  "version": "0.1.0",
+  "description": "Paperclip external adapter for OpenRouter API — supports 100+ models (DeepSeek, Gemini, Claude, GPT-4) with token tracking and cost estimation.",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://github.com/superbiche/paperclip-adapters/tree/main/packages/openrouter-local#readme",
+  "bugs": {
+    "url": "https://github.com/superbiche/paperclip-adapters/issues"
+  },
+  "keywords": [
+    "paperclip",
+    "paperclipai",
+    "adapter",
+    "openrouter",
+    "agent",
+    "ai",
+    "llm",
+    "orchestration",
+    "deepseek",
+    "gemini",
+    "claude"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/superbiche/paperclip-adapters",
+    "directory": "packages/openrouter-local"
+  },
+  "paperclip": {
+    "adapterUiParser": "1.0.0"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./server": "./dist/server/index.js",
+    "./ui-parser": "./dist/ui-parser.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@paperclipai/adapter-utils": "^2026.416.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

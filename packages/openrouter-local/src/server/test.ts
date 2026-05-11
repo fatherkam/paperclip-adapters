@@ -3,6 +3,7 @@ import type {
   AdapterEnvironmentTestResult,
   AdapterEnvironmentCheck,
 } from "@paperclipai/adapter-utils";
+import { type as adapterType } from "../index.js";
 
 export async function testEnvironment(
   ctx: AdapterEnvironmentTestContext,
@@ -106,7 +107,7 @@ export async function testEnvironment(
   const hasErrors = checks.some(c => c.level === "error");
   
   return {
-    adapterType: type,
+    adapterType: adapterType,
     status: hasErrors ? "fail" : "pass",
     checks,
     testedAt: new Date().toISOString(),

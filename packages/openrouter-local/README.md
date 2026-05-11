@@ -57,6 +57,12 @@ Create an agent in Paperclip with this adapter config:
 | Field | Type | Default | Description |
 |-------|------|---------|-------------|
 | `baseUrl` | string | `https://openrouter.ai/api/v1` | OpenRouter API base URL |
+
+### Optional Fields
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `baseUrl` | string | `https://openrouter.ai/api/v1` | OpenRouter API base URL |
 | `timeoutSec` | number | `120` | Request timeout in seconds |
 | `graceSec` | number | `15` | Grace period after timeout |
 | `maxTurnsPerRun` | number | `200` | Max conversation turns per heartbeat |
@@ -67,9 +73,9 @@ Create an agent in Paperclip with this adapter config:
 ### Free Models 🆓
 
 - `deepseek/deepseek-chat` — DeepSeek Chat (best free model)
-- `google/gemini-3.1-flash-lite` — Gemini Flash Lite
-- `meta-llama/llama-3.3-70b-instruct` — Llama 3.3 70B
-- `qwen/qwen-2.5-72b-instruct` — Qwen 2.5 72B
+- `google/gemini-3.1-flash-lite` — Gemini 3.1 Flash Lite (free!)
+- `meta-llama/llama-3.3-70b-instruct` — Llama 3.3 70B (free!)
+- `qwen/qwen-2.5-72b-instruct` — Qwen 2.5 72B (free!)
 
 ### Cheap Models 💰
 

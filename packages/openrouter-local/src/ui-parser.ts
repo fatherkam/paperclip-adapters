@@ -7,10 +7,16 @@
  * Contract: Must have zero runtime imports and no side effects.
  */
 
-import type { TranscriptEntry } from "@paperclipai/adapter-utils";
+// Minimal transcript entry type for UI rendering
+interface ParsedEntry {
+  type: 'assistant_message' | 'system_log' | 'error' | 'stdout';
+  content: string;
+  timestamp?: string;
+  metadata?: Record<string, unknown>;
+}
 
-export function parseTranscript(stdout: string): TranscriptEntry[] {
-  const entries: TranscriptEntry[] = [];
+export function parseTranscript(stdout: string): ParsedEntry[] {
+  const entries: ParsedEntry[] = [];
   
   // Parse OpenRouter API response logs
   const lines = stdout.split("\n").filter(line => line.trim());
@@ -30,6 +36,24 @@ export function parseTranscript(stdout: string): TranscriptEntry[] {
             usage: parsed.usage,
             finish_reason: parsed.choices[0].finish_reason,
           },
+        });
+      } else if (parsed?.error?.message) {
+        // Handle API error responses
+        entries.push({
+          type: "error",
+          content: String(parsed.error.message),
+          timestamp: new Date().toISOString(),
+          metadata: {
+            code: parsed.error.code,
+            type: parsed.error.type,
+          },
+        });
+      } else {
+        // Unrecognized JSON - show as stdout
+        entries.push({
+          type: "stdout",
+          content: line,
+          timestamp: new Date().toISOString(),
         });
       }
     } catch {

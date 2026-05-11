@@ -6,7 +6,7 @@ import {
   type AdapterEnvironmentTestStatus,
   type AdapterEnvironmentCheckLevel,
 } from "@paperclipai/adapter-utils";
-import { OpenRouterClient, OpenRouterMessage, OpenRouterApiError } from "./openrouter-client";
+import { OpenRouterClient, OpenRouterMessage, OpenRouterApiError } from "./openrouter-client.js";
 
 export interface OpenRouterAdapterConfig {
   baseUrl: string;
@@ -95,11 +95,20 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
       };
     }
 
-    const output = choice.message.content;
+    const output = choice.message?.content ?? "";
     const finishReason = choice.finish_reason;
 
     // Extract token usage
     const usage = response.usage;
+    if (!usage) {
+      return {
+        exitCode: 1,
+        signal: null,
+        timedOut: false,
+        errorMessage: "No usage data returned from OpenRouter",
+        errorCode: "NO_USAGE_DATA",
+      };
+    }
     
     // Infer billing provider
     const billingProvider = "openrouter";
@@ -181,12 +190,12 @@ export async function execute(ctx: AdapterExecutionContext): Promise<AdapterExec
  * Estimate cost based on OpenRouter pricing (as of May 2026)
  * This is a rough estimate - actual costs may vary
  */
-function estimateCost(tokensIn: number, tokensOut: number, model: string): number | null {
+function estimateCost(tokensIn: number, tokensOut: number, model: string): number {
   // Pricing per 1M tokens (USD)
   const pricing: Record<string, { input: number; output: number }> = {
     // Free models
     "deepseek/deepseek-chat": { input: 0, output: 0 },
-    "google/gemini-2.0-flash-exp": { input: 0, output: 0 },
+    "google/gemini-3.1-flash-lite": { input: 0, output: 0 },
     "meta-llama/llama-3.3-70b-instruct": { input: 0, output: 0 },
     "qwen/qwen-2.5-72b-instruct": { input: 0, output: 0 },
     
